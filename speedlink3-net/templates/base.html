@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ seo.title }}{% endblock %}</title>
+    <meta name="description" content="{% block description %}{{ seo.description }}{% endblock %}">
+    
+    <!-- Open Graph / Social Meta -->
+    <meta property="og:title" content="{% block og_title %}{{ seo.title }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ seo.description }}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{% if seo.og_image %}{{ seo.og_image }}{% else %}{% static 'images/default_og.jpg' %}{% endif %}{% endblock %}">
+    <meta property="og:type" content="website">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;850&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Style Sheet -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <!-- Glow effects background -->
+    <div class="glow-blur glow-1"></div>
+    <div class="glow-blur glow-2"></div>
+    
+    <div class="layout-wrapper">
+        <header class="site-header">
+            <a href="{% url 'home' %}" class="site-logo">Speedlink3 AI Technologies</a>
+            <ul class="nav-links">
+                <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a></li>
+                <li><a href="{% url 'services' %}" class="{% if request.resolver_match.url_name == 'services' %}active{% endif %}">Services</a></li>
+                <li><a href="{% url 'insights' %}" class="{% if request.resolver_match.url_name == 'insights' %}active{% endif %}">Insights</a></li>
+                <li><a href="{% url 'about' %}" class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">About Us</a></li>
+                <li><a href="{% url 'contact' %}" class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact</a></li>
+            </ul>
+        </header>
+
+        <main class="site-content">
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="site-footer">
+            <div>
+                &copy; 2026 Speedlink3 AI Technologies. All rights reserved.
+            </div>
+            <div style="display: flex; gap: 1.5rem;">
+                <a href="{% url 'page_detail' 'play-store-app-developer-policy' %}">Developer Policy</a>
+                <a href="{% url 'page_detail' 'unsubscribe-user-data-deletion' %}">Data Deletion</a>
+                <a href="{% url 'about' %}">History</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Floating AI Chat Widget -->
+    <div class="chat-widget-bubble" id="chat-bubble">
+        <!-- SVG Chat Icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: white;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+    </div>
+
+    <div class="chat-window" id="chat-window">
+        <div class="chat-header">
+            <h4 style="color: white; margin: 0;">Speedlink3 AI Assistant</h4>
+            <button class="chat-close-btn" id="chat-close">&times;</button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="chat-message message-agent">
+                Hello! I am the Speedlink3 AI Assistant. I can tell you about our AIBM ERP Software, Managed Hosting, or Full-Stack Web Development services. What are you interested in?
+            </div>
+        </div>
+        <div class="chat-footer">
+            <input type="text" class="chat-input" id="chat-input" placeholder="Type a message..." autocomplete="off">
+            <button class="chat-send-btn" id="chat-send">Send</button>
+        </div>
+    </div>
+
+    <!-- JS Scripts -->
+    <script src="{% static 'app.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

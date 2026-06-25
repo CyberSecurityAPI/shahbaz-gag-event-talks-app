@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ page.title }} - Speedlink3{% endblock %}
+{% block description %}{{ page.seo_description|default:page.content|truncatewords:30 }}{% endblock %}
+
+{% block content %}
+<article class="post-detail-container">
+    <header class="post-header">
+        <h1 class="post-title">{{ page.title }}</h1>
+        <div class="post-date">
+            Last updated: {{ page.updated_at|date:"F d, Y" }}
+        </div>
+    </header>
+
+    <div class="post-content">
+        {{ page.content|safe }}
+    </div>
+</article>
+{% endblock %}

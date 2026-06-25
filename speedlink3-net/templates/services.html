@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="post-detail-container">
+    <div class="post-header">
+        <span class="hero-badge">Enterprise Services</span>
+        <h1 class="post-title">Commercial AI &amp; High-Performance Systems</h1>
+        <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">Speedlink3 AI Technologies provides industrial-grade cloud services, bespoke automation platforms, and full-stack software development pipelines.</p>
+    </div>
+    
+    <div class="post-content">
+        <!-- Service Block 1: AIBM ERP -->
+        <div style="background: var(--bg-surface); padding: 2rem; border-radius: 16px; border: 1px solid var(--border-color); margin-bottom: 2rem;">
+            <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; border-bottom: none; padding-bottom: 0;">1. AIBM Cloud ERP Software</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Our flagship enterprise resource planning system designed specifically for medium-to-large corporate clients in South Asia and globally.</p>
+            <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                <li>Multi-tenant ledger system with automated auditing loops.</li>
+                <li>Real-time inventory mapping across multiple warehouses.</li>
+                <li>Secure integration with local and international payment systems.</li>
+                <li>Comprehensive tax compliance rules embedded inside daily operations logs.</li>
+            </ul>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <span style="font-weight: 700; color: var(--primary);">Custom Enterprise Quotation Available</span>
+                <a href="{% url 'contact' %}" class="btn btn-primary" style="padding: 0.5rem 1.25rem; font-size: 0.85rem;">Request Demo &rarr;</a>
+            </div>
+        </div>
+
+        <!-- Service Block 2: NVMe Hosting -->
+        <div style="background: var(--bg-surface); padding: 2rem; border-radius: 16px; border: 1px solid var(--border-color); margin-bottom: 2rem;">
+            <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; border-bottom: none; padding-bottom: 0;">2. 900% Faster NVMe Web Hosting</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Micro-optimized SSD/NVMe network infrastructure deployed in premium data centers in Bangladesh for ultra-fast response rates.</p>
+            <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                <li>Fully managed cloud setups with automated database backups and cron-job triggers.</li>
+                <li>Free SSL certificates and custom domain forwarding setups.</li>
+                <li>Anti-DDoS filtering mechanisms optimized at the gateway routers.</li>
+                <li>1-click installations for modern web engines, dynamic databases, and API interfaces.</li>
+            </ul>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <span style="font-weight: 700; color: var(--primary);">Plans starting at ৳499 / Month</span>
+                <a href="{% url 'contact' %}" class="btn btn-primary" style="padding: 0.5rem 1.25rem; font-size: 0.85rem;">View Hosting Plans &rarr;</a>
+            </div>
+        </div>
+
+        <!-- Service Block 3: Cognitive AI Integrations -->
+        <div style="background: var(--bg-surface); padding: 2rem; border-radius: 16px; border: 1px solid var(--border-color); margin-bottom: 2rem;">
+            <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; border-bottom: none; padding-bottom: 0;">3. Cognitive AI &amp; Gemini Model Integrations</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Upgrade your existing enterprise setups with deep intelligence frameworks to index data, draft automated emails, and chat with files.</p>
+            <ul style="margin-left: 1.5rem; margin-bottom: 1.5rem;">
+                <li>Custom chatbot overlays matching your exact corporate style guides.</li>
+                <li>Vertex AI &amp; Gemini pipeline connections for complex analysis tasks.</li>
+                <li>Speech-to-text summaries for daily administrative sync-ups.</li>
+                <li>Predictive maintenance alerts built for manufacturing inventory ledgers.</li>
+            </ul>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <span style="font-weight: 700; color: var(--primary);">Bespoke AI Engineering Consultation</span>
+                <a href="{% url 'contact' %}" class="btn btn-primary" style="padding: 0.5rem 1.25rem; font-size: 0.85rem;">Consult with Engineers &rarr;</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
