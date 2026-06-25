@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Stay up to date with the latest Google BigQuery releases, updates, and features with this premium interactive dashboard.">
+    <title>Google BigQuery Release Notes Dashboard</title>
+    <!-- Google Fonts Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Main Style Sheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Background decorative gradients -->
+        <div class="glow-bg glow-bg-1"></div>
+        <div class="glow-bg glow-bg-2"></div>
+
+        <header class="app-header">
+            <div class="header-logo-title">
+                <div class="logo-container" id="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="cloud-svg">
+                        <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z" fill="url(#cloudGrad)" />
+                        <path d="M12 8v8M9 13l3 3 3-3" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <defs>
+                            <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#3b82f6" />
+                                <stop offset="100%" stop-color="#8b5cf6" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <div class="title-container">
+                    <h1 class="main-title">BigQuery Release Notes</h1>
+                    <p class="subtitle">Track the latest updates, features, and deprecations in Google BigQuery</p>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <div class="search-bar-container">
+                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="search-input" placeholder="Search updates..." aria-label="Search release notes">
+                </div>
+                <button id="refresh-btn" class="btn primary-btn" aria-label="Refresh release notes">
+                    <span id="btn-text">Refresh</span>
+                    <svg id="spinner" class="spinner hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,0.2)"></circle><path d="M12 2a10 10 0 0 1 10 10"></path></svg>
+                </button>
+            </div>
+        </header>
+
+        <main class="content-area">
+            <div id="loading-skeleton" class="skeleton-container hidden">
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+            </div>
+
+            <div id="error-message" class="error-container hidden">
+                <svg class="error-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                <h2 class="error-title">Failed to load updates</h2>
+                <p id="error-text" class="error-subtitle">Please check your connection and try again.</p>
+                <button id="retry-btn" class="btn secondary-btn">Try Again</button>
+            </div>
+
+            <div id="empty-state" class="empty-container hidden">
+                <svg class="empty-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8"></path></svg>
+                <h2>No release notes found</h2>
+                <p>Try resetting your search filter.</p>
+            </div>
+
+            <section id="releases-list" class="releases-grid" aria-live="polite">
+                <!-- Release cards will be inserted here dynamically -->
+            </section>
+        </main>
+
+        <footer class="app-footer">
+            <p>Data synced from <a href="https://docs.cloud.google.com/feeds/bigquery-release-notes.xml" target="_blank" rel="noopener noreferrer" id="source-link">Google Cloud Feeds</a></p>
+        </footer>
+    </div>
+
+    <!-- Twitter/X Share Modal -->
+    <div id="tweet-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-card">
+            <header class="modal-header">
+                <h3 id="modal-title">Prepare Tweet</h3>
+                <button id="close-modal-btn" class="close-btn" aria-label="Close modal">&times;</button>
+            </header>
+            <div class="modal-body">
+                <div class="tweet-preview-container">
+                    <div class="tweet-user-info">
+                        <div class="tweet-avatar">BQ</div>
+                        <div class="tweet-name-handle">
+                            <span class="tweet-name">BigQuery News Hub</span>
+                            <span class="tweet-handle">@BigQueryHub</span>
+                        </div>
+                    </div>
+                    <textarea id="tweet-textarea" class="tweet-input" rows="5" maxlength="280" aria-label="Tweet text"></textarea>
+                    <div class="tweet-counter-container">
+                        <span id="char-count">0</span>/280
+                    </div>
+                </div>
+            </div>
+            <footer class="modal-footer">
+                <button id="cancel-tweet-btn" class="btn secondary-btn">Cancel</button>
+                <button id="post-tweet-btn" class="btn primary-btn share-x-btn">
+                    <svg class="x-logo-svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                    Post to X
+                </button>
+            </footer>
+        </div>
+    </div>
+
+    <!-- App Script -->
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
