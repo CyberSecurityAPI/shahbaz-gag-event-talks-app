@@ -13,6 +13,7 @@
 - [x] Run local server at `http://127.0.0.1:5001`.
 - [x] Document the design in `implementation_plan.md` artifact.
 - [x] Create project `.gitignore` file.
+- [x] Create GitHub repository [CyberSecurityAPI/shahbaz-gag-event-talks-app](https://github.com/CyberSecurityAPI/shahbaz-gag-event-talks-app) and push source code to the `gemini-master` branch.
 
 ## Future / Pending Tasks
 - [ ] Implement "Copy to Clipboard" fallback inside the X share modal.
