@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="post-detail-container" style="text-align: center; padding: 5rem 1rem;">
+    <span class="hero-badge" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); color: #ef4444;">Access Denied</span>
+    <h1 style="font-size: 3rem; font-weight: 850; letter-spacing: -0.03em; margin-top: 1rem; margin-bottom: 1.5rem;">403 - Unauthorized</h1>
+    <p style="color: var(--text-secondary); max-width: 500px; margin: 0 auto 2.5rem auto;">You do not have administrative privileges to access the Speedlink3 analytical dashboard. If you believe this is an error, please contact your systems manager.</p>
+    <a href="{% url 'home' %}" class="btn btn-primary">Return to Homepage</a>
+</section>
+{% endblock %}

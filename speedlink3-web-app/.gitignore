@@ -1,0 +1,28 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Relational database file (ignored for local production setups)
+db.sqlite3
+
+# Uploaded Media / Assets
+media/
+portfolio/
+og_images/
+downloads/
+
+# Virtual Environment configuration directories
+.venv/
+venv/
+env/
+.env
+
+# System log files
+*.log
+
+# Editor and IDE configurations
+.vscode/
+.idea/
+*.suo
+*.sln

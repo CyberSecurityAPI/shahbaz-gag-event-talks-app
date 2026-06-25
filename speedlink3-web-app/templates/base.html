@@ -1,0 +1,157 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ seo.title }}{% endblock %}</title>
+    <meta name="description" content="{% block description %}{{ seo.description }}{% endblock %}">
+    
+    <!-- Open Graph / Social Meta -->
+    <meta property="og:title" content="{% block og_title %}{{ seo.title }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ seo.description }}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{% if seo.og_image %}{{ seo.og_image }}{% else %}{% static 'images/default_og.jpg' %}{% endif %}{% endblock %}">
+    <meta property="og:type" content="website">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;850&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Style Sheet -->
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    
+    <!-- Google Identity Services (Auto Google One Tap Sign-In) -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <!-- Google One Tap Auto-Prompt Overlay (Runs globally across all public pages) -->
+    {% if not user.is_authenticated %}
+    <div id="g_id_onload"
+         data-client_id="1234567890-mockclientid.apps.googleusercontent.com"
+         data-context="signin"
+         data-ux_mode="redirect"
+         data-login_uri="http://127.0.0.1:8000/google-auth-callback/"
+         data-auto_prompt="true">
+    </div>
+    {% endif %}
+
+    <!-- Glow effects background -->
+    <div class="glow-blur glow-1"></div>
+    <div class="glow-blur glow-2"></div>
+    
+    <div class="layout-wrapper">
+        <header class="site-header">
+            <a href="{% url 'home' %}" class="site-logo">Speedlink3 AI Technologies</a>
+            <ul class="nav-links">
+                <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a></li>
+                <li><a href="{% url 'services' %}" class="{% if request.resolver_match.url_name == 'services' %}active{% endif %}">Services</a></li>
+                <li><a href="{% url 'insights' %}" class="{% if request.resolver_match.url_name == 'insights' %}active{% endif %}">Insights</a></li>
+                <li><a href="{% url 'about' %}" class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">About Us</a></li>
+                <li><a href="{% url 'contact' %}" class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact</a></li>
+                
+                <!-- Conditional Role-Based Navigation -->
+                {% if user.is_authenticated %}
+                    {% if user.profile.role == 'super_admin' %}
+                        <li><a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" style="color: #10b981; font-weight: 700;">Dashboard</a></li>
+                    {% else %}
+                        <li><span style="color: var(--text-secondary); font-size: 0.95rem; font-weight: 600;">@{{ user.username }}</span></li>
+                    {% endif %}
+                    <li><a href="{% url 'logout' %}">Sign Out</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}" class="{% if request.resolver_match.url_name == 'login' %}active{% endif %}">Sign In</a></li>
+                    <li><a href="{% url 'signup' %}" class="{% if request.resolver_match.url_name == 'signup' %}active{% endif %}" style="border: 1px solid var(--primary); padding: 0.25rem 0.75rem; border-radius: 6px;">Sign Up</a></li>
+                {% endif %}
+            </ul>
+        </header>
+
+        <main class="site-content">
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="site-footer">
+            <div>
+                &copy; 2026 Speedlink3 AI Technologies. All rights reserved.
+            </div>
+            <div style="display: flex; gap: 1.5rem;">
+                <a href="{% url 'page_detail' 'play-store-app-developer-policy' %}">Developer Policy</a>
+                <a href="{% url 'page_detail' 'unsubscribe-user-data-deletion' %}">Data Deletion</a>
+                <a href="{% url 'about' %}">History</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Floating AI Chat Widget -->
+    <div class="chat-widget-bubble" id="chat-bubble">
+        <!-- SVG Chat Icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: white;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+    </div>
+
+    <div class="chat-window" id="chat-window">
+        <div class="chat-header">
+            <h4 style="color: white; margin: 0;">Speedlink3 AI Assistant</h4>
+            <button class="chat-close-btn" id="chat-close">&times;</button>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="chat-message message-agent">
+                Hello! I am the Speedlink3 AI Assistant. I can tell you about our AIBM ERP Software, Managed Hosting, or Full-Stack Web Development services. What are you interested in?
+            </div>
+        </div>
+        <div class="chat-footer">
+            <input type="text" class="chat-input" id="chat-input" placeholder="Type a message..." autocomplete="off">
+            <button class="chat-send-btn" id="chat-send">Send</button>
+        </div>
+    </div>
+
+    <!-- EU Consent & CCPA Opt-Out Banner Overlay -->
+    <div id="eu-consent-banner" style="position: fixed; bottom: 2rem; left: 2rem; right: 2rem; max-width: 600px; margin: 0 auto; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 16px; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); z-index: 9999; transform: translateY(150%); transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); opacity: 0; pointer-events: none;">
+        <div style="display: flex; gap: 1rem; align-items: flex-start;">
+            <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 50%; padding: 0.5rem; display: flex; align-items: center; justify-content: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </div>
+            <div>
+                <h4 style="font-weight: 700; font-size: 1rem; color: #ffffff; margin-bottom: 0.25rem;">EU &amp; Global Privacy Preferences</h4>
+                <p style="font-size: 0.825rem; color: var(--text-secondary); line-height: 1.45;">We use cookies to personalize content, ads, social features, and analyze traffic. To comply with Google's EU User Consent Policy (GDPR) and State Privacy Laws (CCPA), please review and accept these terms. For details, view our <a href="{% url 'page_detail' 'unsubscribe-user-data-deletion' %}" style="color: var(--primary); text-decoration: underline;">Privacy Policy</a>.</p>
+            </div>
+        </div>
+        <div style="display: flex; gap: 0.75rem; justify-content: flex-end; align-items: center; flex-wrap: wrap;">
+            <a href="#" id="ccpa-optout-btn" style="font-size: 0.75rem; color: var(--text-muted); text-decoration: underline; margin-right: auto;" onclick="alert('Your preference has been logged. Under CCPA rules, we have restricted third-party tracking cookies on your session.'); document.getElementById('eu-consent-banner').style.transform = 'translateY(150%)'; document.getElementById('eu-consent-banner').style.opacity = '0'; return false;">Do Not Sell/Share My Info</a>
+            <button id="reject-consent-btn" class="btn btn-secondary" style="padding: 0.4rem 1rem; font-size: 0.8rem; border-radius: 8px;">Reject All</button>
+            <button id="accept-consent-btn" class="btn btn-primary" style="padding: 0.4rem 1.25rem; font-size: 0.8rem; border-radius: 8px;">Accept All</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const consentBanner = document.getElementById('eu-consent-banner');
+            const acceptBtn = document.getElementById('accept-consent-btn');
+            const rejectBtn = document.getElementById('reject-consent-btn');
+            
+            if (consentBanner && !localStorage.getItem('eu-user-consent')) {
+                // Show banner after short delay
+                setTimeout(() => {
+                    consentBanner.style.pointerEvents = 'auto';
+                    consentBanner.style.opacity = '1';
+                    consentBanner.style.transform = 'translateY(0)';
+                }, 1000);
+            }
+            
+            const dismissBanner = (preference) => {
+                localStorage.setItem('eu-user-consent', preference);
+                consentBanner.style.transform = 'translateY(150%)';
+                consentBanner.style.opacity = '0';
+                consentBanner.style.pointerEvents = 'none';
+            };
+            
+            if (acceptBtn) acceptBtn.addEventListener('click', () => dismissBanner('accepted'));
+            if (rejectBtn) rejectBtn.addEventListener('click', () => dismissBanner('rejected'));
+        });
+    </script>
+
+    <!-- JS Scripts -->
+    <script src="{% static 'app.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

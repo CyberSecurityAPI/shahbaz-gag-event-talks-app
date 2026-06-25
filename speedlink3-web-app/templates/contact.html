@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="post-detail-container" style="max-width: 600px;">
+    <div class="post-header">
+        <span class="hero-badge">Get in Touch</span>
+        <h1 class="post-title">Contact Our Engineering Team</h1>
+        <p style="color: var(--text-secondary);">Fill out the secure communication portal below. We usually respond within 2 business hours.</p>
+    </div>
+    
+    {% if success %}
+    <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 2rem; text-align: center; margin-bottom: 2rem;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 1rem;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        <h3 style="font-weight: 700; color: #10b981; margin-bottom: 0.5rem;">Message Received Successfully</h3>
+        <p style="color: var(--text-secondary); font-size: 0.95rem;">Thank you for your interest. A system architect has been assigned to your query and will reach out shortly.</p>
+        <a href="{% url 'home' %}" class="btn btn-secondary" style="margin-top: 1.5rem; font-size: 0.85rem; padding: 0.5rem 1.25rem;">Return Home</a>
+    </div>
+    {% else %}
+    <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 16px; padding: 2.5rem; backdrop-filter: blur(12px);">
+        <form method="POST" action="{% url 'contact' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name">Your Name</label>
+                <input type="text" name="name" id="name" class="form-input" placeholder="e.g. John Doe" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Your Email Address</label>
+                <input type="email" name="email" id="email" class="form-input" placeholder="e.g. john@company.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="subject">Subject</label>
+                <input type="text" name="subject" id="subject" class="form-input" placeholder="e.g. Request Demo for AIBM ERP" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Your Message / Inquiry</label>
+                <textarea name="message" id="message" class="form-input" rows="5" placeholder="Tell us about your project requirements..." required style="resize: vertical; min-height: 120px;"></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Send Message &rarr;</button>
+        </form>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

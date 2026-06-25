@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ post.title }} - Speedlink3 Insights{% endblock %}
+{% block description %}{{ post.seo_description|default:post.excerpt|default:post.content|truncatewords:30 }}{% endblock %}
+
+{% block og_title %}{{ post.title }}{% endblock %}
+{% block og_description %}{{ post.seo_description|default:post.excerpt|default:post.content|truncatewords:30 }}{% endblock %}
+{% block og_image %}{% if post.og_image %}{{ post.og_image.url }}{% else %}{% static 'images/default_og.jpg' %}{% endif %}{% endblock %}
+
+{% block content %}
+<article class="post-detail-container">
+    <!-- Post Header -->
+    <header class="post-header">
+        <span class="hero-badge" style="margin-bottom: 1rem;">
+            {{ post.category.name|default:"Uncategorized" }}
+        </span>
+        <h1 class="post-title">{{ post.title }}</h1>
+        <div class="post-date">
+            Published on {{ post.created_at|date:"F d, Y" }} by {{ post.author.username }}
+        </div>
+    </header>
+
+    <!-- AdSense Top Article Unit -->
+    <div style="margin: 2rem 0; text-align: center; padding: 0.5rem; background: rgba(255, 255, 255, 0.01); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+        <span style="font-size: 0.7rem; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">ADVERTISEMENT</span>
+        <div style="height: 50px; background: rgba(59, 130, 246, 0.03); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; color: var(--text-secondary); border-radius: 4px;">
+            Google AdSense In-Article Ad Unit [Dynamic Resizing]
+        </div>
+    </div>
+
+    <!-- Post Content (Safe HTML Rendering) -->
+    <div class="post-content">
+        {{ post.content|safe }}
+    </div>
+
+    <!-- Social Share Actions -->
+    <div style="margin-top: 4rem; padding: 1.5rem; background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <div>
+            <h4 style="font-weight: 700; font-size: 1rem; color: var(--text-primary);">Did you find this helpful?</h4>
+            <p style="font-size: 0.825rem; color: var(--text-secondary); margin-top: 0.15rem;">Share this guide with your technical network.</p>
+        </div>
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <!-- X Share Button -->
+            <a href="https://x.com/intent/tweet?text={{ post.title|urlencode }}&url={{ request.build_absolute_uri|urlencode }}" target="_blank" class="btn btn-secondary" style="padding: 0.4rem 1rem; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.35rem; border-radius: 8px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="color: white;"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                Post on X
+            </a>
+            <!-- LinkedIn Share Button -->
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri|urlencode }}" target="_blank" class="btn btn-secondary" style="padding: 0.4rem 1rem; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 0.35rem; border-radius: 8px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="color: white;"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                Share on LinkedIn
+            </a>
+        </div>
+    </div>
+
+    <!-- AdSense Recommendation Unit -->
+    <div style="margin: 3rem 0; text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.02); border: 1px dashed var(--border-color); border-radius: 8px;">
+        <span style="font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 0.5rem;">RECOMMENDED FOR YOU</span>
+        <div style="height: 120px; background: rgba(59, 130, 246, 0.04); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; color: var(--text-secondary); border-radius: 4px;">
+            Google AdSense Matched Content Recommendation Block [Responsive Grid]
+        </div>
+    </div>
+</article>
+{% endblock %}

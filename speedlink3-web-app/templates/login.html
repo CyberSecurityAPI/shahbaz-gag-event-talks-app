@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<!-- Google Identity Services Library -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+{% endblock %}
+
+{% block content %}
+<section class="post-detail-container" style="max-width: 500px;">
+    <!-- Google One Tap Auto-Prompt Setup (Top-Right overlay) -->
+    <div id="g_id_onload"
+         data-client_id="1234567890-mockclientid.apps.googleusercontent.com"
+         data-context="signin"
+         data-ux_mode="redirect"
+         data-login_uri="http://127.0.0.1:8000/google-auth-callback/"
+         data-auto_prompt="true">
+    </div>
+
+    <div class="post-header">
+        <span class="hero-badge">Welcome Back</span>
+        <h1 class="post-title">Sign In to Your Console</h1>
+        <p style="color: var(--text-secondary);">Access your developer profile, modules, and analytical dashboards.</p>
+    </div>
+
+    {% if error %}
+    <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: #ef4444; border-radius: 8px; padding: 0.75rem 1rem; margin-bottom: 1.5rem; font-size: 0.9rem; text-align: center;">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <div style="background: var(--bg-surface); border: 1px solid var(--border-color); border-radius: 16px; padding: 2rem; backdrop-filter: blur(12px);">
+        <!-- Manual Form -->
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" class="form-input" placeholder="Enter username" required>
+            </div>
+            
+            <div class="form-group" style="margin-bottom: 1rem;">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" class="form-input" placeholder="Enter password" required>
+            </div>
+            
+            <div style="margin-bottom: 1.5rem; font-size: 0.8rem; color: var(--text-muted);">
+                By logging in, you agree to our 
+                <a href="{% url 'page_detail' 'play-store-app-developer-policy' %}" style="color: var(--primary); text-decoration: none;">Terms of Service</a> and 
+                <a href="{% url 'page_detail' 'unsubscribe-user-data-deletion' %}" style="color: var(--primary); text-decoration: none;">Privacy Policy</a>.
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 1.5rem;">Sign In</button>
+        </form>
+
+        <!-- Divider -->
+        <div style="display: flex; align-items: center; text-align: center; margin-bottom: 1.5rem;">
+            <hr style="flex-grow: 1; border: none; border-top: 1px solid var(--border-color);">
+            <span style="padding: 0 10px; font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">OR</span>
+            <hr style="flex-grow: 1; border: none; border-top: 1px solid var(--border-color);">
+        </div>
+
+        <!-- Google Custom Sign-In Button Container -->
+        <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
+            <div class="g_id_signin"
+                 data-type="standard"
+                 data-shape="rectangular"
+                 data-theme="filled_blue"
+                 data-text="continue_with"
+                 data-size="large"
+                 data-logo_alignment="left">
+            </div>
+        </div>
+
+        <div style="text-align: center; font-size: 0.875rem;">
+            <span style="color: var(--text-secondary);">New to Speedlink3?</span>
+            <a href="{% url 'signup' %}" style="color: var(--primary); text-decoration: none; font-weight: 600; margin-left: 0.25rem;">Create an Account</a>
+        </div>
+    </div>
+
+    <!-- US CCPA Regulations Opt-Out Link -->
+    <div style="margin-top: 2rem; text-align: center; font-size: 0.75rem; color: var(--text-muted);">
+        <a href="#" onclick="alert('Your preference has been logged. Under CCPA rules, we have restricted third-party tracking cookies on your session.'); return false;" style="color: var(--text-muted); text-decoration: underline;">
+            Do Not Sell or Share My Personal Information
+        </a>
+    </div>
+</section>
+{% endblock %}
