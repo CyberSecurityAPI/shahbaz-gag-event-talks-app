@@ -15,6 +15,7 @@
 - [x] Create project `.gitignore` file.
 - [x] Create GitHub repository [CyberSecurityAPI/shahbaz-gag-event-talks-app](https://github.com/CyberSecurityAPI/shahbaz-gag-event-talks-app) and push source code to the `gemini-master` branch.
 - [x] Create personal GitHub repository [Speedlink3/Talk-With-GaGravity](https://github.com/Speedlink3/Talk-With-GaGravity) and push source code to the `gemini-master` branch.
+- [x] Create GitHub Profile README repository [Speedlink3/Speedlink3](https://github.com/Speedlink3/Speedlink3) and push profile README and banner to the `gemini-master` branch.
 
 ## Future / Pending Tasks
 - [ ] Implement "Copy to Clipboard" fallback inside the X share modal.
